@@ -1,0 +1,14 @@
+name: Ranker
+version: '0.1-SNAPSHOT'
+main: org.mat93100.main
+api-version: '1.18'
+description: Rank manager GUI, made for LuckPerm integration with hearth <3
+author: mat93100
+
+softdepend:
+  - LuckPerms
+
+commands:
+  rank:
+    description: Gestisce i rank dei giocatori
+    usage: /rank [info][gui][player]
