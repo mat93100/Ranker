@@ -12,7 +12,7 @@ public final class main extends JavaPlugin {
     private LuckPerms luckPermsAPI;
 
     String LoadPrefix = ChatColor.WHITE + "[" +
-            ChatColor.LIGHT_PURPLE + "93PL" +//
+            ChatColor.LIGHT_PURPLE + "93PL" +
             ChatColor.WHITE + " - " +
             ChatColor.YELLOW + "[BETA]" +
             ChatColor.WHITE + "] ";

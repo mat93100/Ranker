@@ -18,7 +18,7 @@ public class RankCommand implements CommandExecutor {
     private final main plugin;
 
     public RankCommand(main plugin) {
-        this.plugin = plugin;
+        this.plugin = plugin;//
     }
 
     @Override
