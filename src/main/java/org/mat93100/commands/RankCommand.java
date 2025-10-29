@@ -2,41 +2,39 @@ package org.mat93100.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+//Classes from pkg
 import org.mat93100.main;
+import org.mat93100.util.guiConstructor;
+import org.mat93100.util.various;
+
 
 public class RankCommand implements CommandExecutor {
 
     private final main plugin;
 
     public RankCommand(main plugin) {
-        this.plugin = plugin;//
+        this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-
         if (!(sender instanceof Player player)) {
-            if (args.length == 0 || args[0].equalsIgnoreCase("info")) {
+            if (args.length > 0 && args[0].equalsIgnoreCase("info")) {
                 showInfo(sender, true);
-                return true;
+            } else {
+                sender.sendMessage(ChatColor.RED + "The only argument available in the console is 'INFO'.");
             }
-            sender.sendMessage(ChatColor.RED + "The only argument available in the console is 'INFO'. Please use any other argument in game.");
             return true;
         }
 
-        String usage = "Incorrect usage! Use /rank [Info|GUI|{playerName}]";
-
-        if (args.length == 0) {
-            player.sendMessage(ChatColor.RED + usage);
+        if (args.length == 0 || args[0].equalsIgnoreCase("gui")) {
+            guiConstructor.openAllPlayerGui(player);
             return true;
         }
 
@@ -45,21 +43,23 @@ public class RankCommand implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("gui")) {
-            openRankGUI(player);
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target != null) {
+            player.sendMessage(ChatColor.GRAY + "//TODO");
             return true;
         }
 
-        player.sendMessage(ChatColor.RED + usage);
+        player.sendMessage(ChatColor.RED + "Invalid argument! Use /rank [{empty} | gui | info | {playerName}]");
         return true;
     }
 
     private void showInfo(CommandSender sender, boolean console) {
-        String version = plugin.getDescription().getVersion();
-        String name = plugin.getDescription().getName();
-        String apiV = plugin.getDescription().getAPIVersion();
-        String depend = String.join(", ", plugin.getDescription().getDepend());
-        String authors = String.join(", ", plugin.getDescription().getAuthors());
+        String version = various.emptyOrNA(plugin.getDescription().getVersion());
+        String name = various.emptyOrNA(plugin.getDescription().getName());
+        String apiV = various.emptyOrNA(plugin.getDescription().getAPIVersion());
+        String depend = various.listOrNA(plugin.getDescription().getDepend());
+        String softDepend = various.listOrNA(plugin.getDescription().getSoftDepend());
+        String authors = various.listOrNA(plugin.getDescription().getAuthors());
 
         sender.sendMessage(ChatColor.LIGHT_PURPLE + "=== Plugin Information ===");
         sender.sendMessage(ChatColor.YELLOW + "Name: " + ChatColor.WHITE + name);
@@ -70,20 +70,8 @@ public class RankCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.GREEN + "Console additional info:");
             sender.sendMessage(ChatColor.YELLOW + "API Version: " + ChatColor.WHITE + apiV);
             sender.sendMessage(ChatColor.YELLOW + "Dependencies: " + ChatColor.WHITE + depend);
+            sender.sendMessage(ChatColor.YELLOW + "Soft-Dependencies: " + ChatColor.WHITE + softDepend);
         }
     }
 
-    private void openRankGUI(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_PURPLE + "Rank Menu");
-
-        ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
-        ItemMeta meta = glass.getItemMeta();
-        meta.setDisplayName(" ");
-        glass.setItemMeta(meta);
-
-        for (int i = 0; i < inv.getSize(); i++) {
-            inv.setItem(i, glass);
-        }
-        player.openInventory(inv);
-    }
 }

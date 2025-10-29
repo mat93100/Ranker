@@ -1,7 +1,7 @@
 package org.mat93100;
 
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.LuckPermsProvider; //future implementation
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -18,7 +18,13 @@ public final class main extends JavaPlugin {
             ChatColor.WHITE + "] ";
 
     @Override
+    public void onLoad(){
+        Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Loading headers...");
+    }
+
+    @Override
     public void onEnable() {
+        Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Headers loaded!");
         Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Started loading plugin...");
         if (!hookLuckPerms()) {
             Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.RED + "LuckPerms not found! Disabling plugin...");
