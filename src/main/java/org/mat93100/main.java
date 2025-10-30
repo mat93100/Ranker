@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import org.mat93100.commands.tabComplete;
+
 public final class main extends JavaPlugin {
 
     private LuckPerms luckPermsAPI;
@@ -19,12 +21,14 @@ public final class main extends JavaPlugin {
 
     @Override
     public void onLoad(){
-        Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Loading headers...");
+        Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Loading initialized.");
+        Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Loading config...");
+        //TODO
+        Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Config loaded!");
     }
 
     @Override
     public void onEnable() {
-        Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Headers loaded!");
         Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "Started loading plugin...");
         if (!hookLuckPerms()) {
             Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.RED + "LuckPerms not found! Disabling plugin...");
@@ -32,7 +36,9 @@ public final class main extends JavaPlugin {
             return;
         }
         Bukkit.getConsoleSender().sendMessage(LoadPrefix + ChatColor.GREEN + "LuckPerms successfully hooked!");
+
         getCommand("rank").setExecutor(new org.mat93100.commands.RankCommand(this));
+        getCommand("rank").setTabCompleter(new tabComplete());
     }
 
     private boolean hookLuckPerms() {
