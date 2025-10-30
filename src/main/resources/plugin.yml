@@ -5,6 +5,7 @@ api-version: '1.18'
 description: Rank manager GUI, made for LuckPerm integration with hearth <3
 author: mat93100
 
+
 softdepend:
   - LuckPerms
 
