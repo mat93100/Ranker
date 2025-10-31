@@ -7,17 +7,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static org.mat93100.util.various.getSkull;
+
 public class guiConstructor {
+
+    private static final String guiPrefix = ChatColor.DARK_PURPLE + "Ranker - ";
 
     public static void openAllPlayerGui(Player viewer) {
 
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_PURPLE + "Online players");
+        Inventory inv = Bukkit.createInventory(null, 54, guiPrefix + "Online players");
 
         fillGlass(inv);
 
@@ -28,12 +32,7 @@ public class guiConstructor {
         for (Player p : players) {
             if (index >= inv.getSize()) break;
 
-            ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-            SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-            skullMeta.setOwningPlayer(p);
-            skullMeta.setDisplayName(ChatColor.GREEN + p.getName());
-            skull.setItemMeta(skullMeta);
-
+            ItemStack skull = getSkull(p, ChatColor.DARK_GREEN + "Open: " + ChatColor.GREEN + p.getName());
             inv.setItem(index, skull);
             index++;
         }
@@ -41,14 +40,26 @@ public class guiConstructor {
     }
 
     public static void openPlayerGui(Player viewer, Player target) {
-        //TODO
+        Inventory inv = Bukkit.createInventory(null, 54, guiPrefix + "Online players");
+
+        fillGlass(inv);
+
+        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+        players.sort(Comparator.comparing(Player::getName, String.CASE_INSENSITIVE_ORDER));
+
+
+        ItemStack skull = getSkull(target, ChatColor.GREEN + target.getName());
+        inv.setItem(13, skull);
+
+
+        viewer.openInventory(inv);
     }
 
     public static void openRankGui(Player viewer) {
         //TODO
     }
 
-    private static void fillGlass(Inventory inv) {
+    private static void fillGlass(@NotNull Inventory inv) {
         ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta meta = glass.getItemMeta();
         meta.setDisplayName(" ");

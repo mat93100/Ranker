@@ -11,5 +11,5 @@ softdepend:
 
 commands:
   rank:
-    description: Gestisce i rank dei giocatori
+    description: Main plugin command
     usage: /rank [info][gui][player]

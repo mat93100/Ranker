@@ -7,12 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-//Classes from pkg
 import org.mat93100.main;
 import org.mat93100.util.guiConstructor;
 import org.mat93100.util.various;
-
 
 public class RankCommand implements CommandExecutor {
 
@@ -43,13 +40,13 @@ public class RankCommand implements CommandExecutor {
             return true;
         }
 
-        Player target = Bukkit.getPlayer(args[0]);
-        if (target != null) {
-            player.sendMessage(ChatColor.GRAY + "//TODO");
+        Player target = Bukkit.getPlayerExact(args[0]);
+        if (target != null && target.isOnline()) {
+            guiConstructor.openPlayerGui(player, target);
             return true;
         }
 
-        player.sendMessage(ChatColor.RED + "Invalid argument! Use /rank [{empty} | gui | info | {playerName}]");
+        player.sendMessage(ChatColor.RED + "Invalid argument! Use /rank [{empty} | gui | info | {onlinePlayerName} : Make sure player is online!]");
         return true;
     }
 
@@ -73,5 +70,4 @@ public class RankCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.YELLOW + "Soft-Dependencies: " + ChatColor.WHITE + softDepend);
         }
     }
-
 }

@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.mat93100.commands.tabComplete;
+import org.mat93100.handlers.InputHandler;
 
 public final class main extends JavaPlugin {
 
@@ -39,6 +40,7 @@ public final class main extends JavaPlugin {
 
         getCommand("rank").setExecutor(new org.mat93100.commands.RankCommand(this));
         getCommand("rank").setTabCompleter(new tabComplete());
+        getServer().getPluginManager().registerEvents(new InputHandler(), this);
     }
 
     private boolean hookLuckPerms() {
